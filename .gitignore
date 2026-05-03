@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Results — track everything (npy files are small for this experiment)
+# results/raw/*.csv
+# results/raw/*.json
+# results/raw/*.npy
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# MyPy / pytest cache
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
