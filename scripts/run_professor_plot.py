@@ -29,6 +29,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
+# ── Font configuration for Chinese ─────────────────────────────────────────────
+plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei', 'SimHei', 'Arial']
+plt.rcParams['axes.unicode_minus'] = False
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
@@ -137,19 +141,19 @@ def plot_professor_style(
 
     # ── Plot lines ─────────────────────────────────────────────────────────────
     ax.plot(eps_x, sarsa_mean, color=COLOR_SARSA, lw=1.8,
-            solid_capstyle="round", label="Sarsa")
+            solid_capstyle="round", label="Sarsa (本實驗)")
     ax.plot(eps_x, ql_mean,    color=COLOR_QL,    lw=1.8,
-            solid_capstyle="round", label="Q-learning")
+            solid_capstyle="round", label="Q-learning (本實驗)")
     ax.plot(eps_x, sarsa_ref,  color=COLOR_SARSA, lw=1.5, linestyle="dotted",
-            label="Sarsa, Sutton Pub.")
+            label="Sarsa (Sutton 參考線)")
     ax.plot(eps_x, ql_ref,     color=COLOR_QL,    lw=1.5, linestyle="dotted",
-            label="Q-learning, Sutton Pub.")
+            label="Q-learning (Sutton 參考線)")
 
     # ── Axes ───────────────────────────────────────────────────────────────────
     ax.set_xlim(0, n_episodes)
     ax.set_ylim(-105, 5)
-    ax.set_xlabel("Episodes", fontsize=12)
-    ax.set_ylabel("Reward Sum for Episode", fontsize=12)
+    ax.set_xlabel("回合 (Episodes)", fontsize=12)
+    ax.set_ylabel("每一回合累積獎勵 (Reward Sum)", fontsize=12)
 
     ax.xaxis.set_major_locator(ticker.MultipleLocator(100))
     ax.xaxis.set_minor_locator(ticker.MultipleLocator(50))
@@ -159,9 +163,9 @@ def plot_professor_style(
 
     # ── Title ──────────────────────────────────────────────────────────────────
     ax.set_title(
-        f"Sarsa Vs. Q-Learning Cliff Walking\n"
-        f"Epsilon={EPSILON}, Alpha={ALPHA}\n"
-        f"(averaged over {N_RUNS} runs)",
+        f"Sarsa vs. Q-Learning 效能比較 (Cliff Walking)\n"
+        f"探索率 ε={EPSILON}, 學習率 α={ALPHA}\n"
+        f"(基於 {N_RUNS} 次實驗平均)",
         fontsize=12,
         fontweight="bold",
         pad=10,

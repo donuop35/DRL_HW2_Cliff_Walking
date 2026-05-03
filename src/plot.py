@@ -27,7 +27,11 @@ COLORS = {
     "grid_bg":   "#F7F9FC",
 }
 
-LABELS = {"qlearning": "Q-Learning (off-policy)", "sarsa": "SARSA (on-policy)"}
+# ── Font configuration for Chinese ─────────────────────────────────────────────
+plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei', 'SimHei', 'Arial']
+plt.rcParams['axes.unicode_minus'] = False
+
+LABELS = {"qlearning": "Q-Learning (離策略)", "sarsa": "SARSA (同策略)"}
 ARROW_CHARS = {0: "↑", 1: "→", 2: "↓", 3: "←"}
 DPI = 150
 FIGSIZE_WIDE = (12, 5)
@@ -48,9 +52,9 @@ def plot_learning_curves(
     _ensure_dir(out_dir)
 
     fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=False)
-    fig.suptitle("Learning Curves: Q-Learning vs SARSA (Cliff Walking)", fontsize=14, fontweight="bold")
+    fig.suptitle("學習曲線：Q-Learning vs SARSA (Cliff Walking)", fontsize=14, fontweight="bold")
 
-    for ax, (title, smoothed) in zip(axes, [("Raw Episode Reward", False), ("Smoothed (MA-50)", True)]):
+    for ax, (title, smoothed) in zip(axes, [("原始獎勵 (Raw Episode Reward)", False), ("平滑獎勵 (MA-50)", True)]):
         for algo, res in results.items():
             color = COLORS[algo]
             fill_color = COLORS.get(f"fill_{algo[:2]}", color)
@@ -69,9 +73,9 @@ def plot_learning_curves(
             ax.fill_between(x, y_lo, y_hi, color=color, alpha=0.18)
 
         ax.set_title(title, fontsize=12)
-        ax.set_xlabel("Episode", fontsize=10)
-        ax.set_ylabel("Total Reward", fontsize=10)
-        ax.axhline(-13, color="gray", ls="--", lw=0.8, alpha=0.6, label="Optimal (−13)")
+        ax.set_xlabel("回合 (Episode)", fontsize=10)
+        ax.set_ylabel("累積獎勵 (Total Reward)", fontsize=10)
+        ax.axhline(-13, color="gray", ls="--", lw=0.8, alpha=0.6, label="理論最佳 (-13)")
         ax.legend(fontsize=9)
         ax.grid(True, alpha=0.3)
         ax.set_xlim(0, n_ep)
@@ -109,8 +113,8 @@ def plot_convergence(
 
     ax.set_xticks([1, 2])
     ax.set_xticklabels([LABELS[a] for a in algos], fontsize=10)
-    ax.set_ylabel("Convergence Episode", fontsize=10)
-    ax.set_title("Convergence Speed Comparison (threshold: MA-50 ≥ −20 for 50 eps)", fontsize=11)
+    ax.set_ylabel("收斂回合 (Convergence Episode)", fontsize=10)
+    ax.set_title("收斂速度比較 (閾值: MA-50 >= -20 持續 50 episodes)", fontsize=11)
     ax.grid(True, axis="y", alpha=0.3)
 
     for i, a in enumerate(algos, start=1):
@@ -142,9 +146,9 @@ def plot_final_reward_bar(
     bars = ax.bar([LABELS[a] for a in algos], means, yerr=stds,
                   color=colors, alpha=0.8, capsize=8, error_kw={"lw": 2})
 
-    ax.axhline(-13, color="gray", ls="--", lw=1, label="Optimal (−13)")
-    ax.set_ylabel("Mean Final-100 Reward", fontsize=10)
-    ax.set_title("Final Performance (last 100 episodes × 20 seeds)", fontsize=11)
+    ax.axhline(-13, color="gray", ls="--", lw=1, label="理論最佳 (-13)")
+    ax.set_ylabel("最後 100 回合平均獎勵", fontsize=10)
+    ax.set_title("最終表現評估 (最後 100 回合 × 20 seeds)", fontsize=11)
     ax.legend(fontsize=9)
     ax.grid(True, axis="y", alpha=0.3)
 
@@ -210,7 +214,7 @@ def plot_policy_grid(
                 ax.text(c, r, "G", ha="center", va="center",
                         color="white", fontsize=13, fontweight="bold")
             elif cell in CLIFF_CELLS:
-                ax.text(c, r, "✕", ha="center", va="center",
+                ax.text(c, r, "x", ha="center", va="center",
                         color="#FF4444", fontsize=9)
             else:
                 state = r * COLS + c
@@ -245,13 +249,13 @@ def plot_policy_grid(
     ax.set_yticks(range(ROWS))
     ax.set_xticklabels(range(COLS), fontsize=8)
     ax.set_yticklabels(range(ROWS), fontsize=8)
-    ax.set_title(f"Greedy Policy: {LABELS.get(algo, algo)}", fontsize=12, fontweight="bold")
+    ax.set_title(f"最終策略 (Greedy Policy): {LABELS.get(algo, algo)}", fontsize=12, fontweight="bold")
 
     legend_items = [
-        mpatches.Patch(facecolor=COLORS["start"], label="Start (S)"),
-        mpatches.Patch(facecolor=COLORS["goal"],  label="Goal (G)"),
-        mpatches.Patch(facecolor=COLORS["cliff"], label="Cliff"),
-        mpatches.Patch(facecolor=COLORS[algo],    label="Policy arrow / path", alpha=0.6),
+        mpatches.Patch(facecolor=COLORS["start"], label="起點 (S)"),
+        mpatches.Patch(facecolor=COLORS["goal"],  label="終點 (G)"),
+        mpatches.Patch(facecolor=COLORS["cliff"], label="懸崖 (Cliff)"),
+        mpatches.Patch(facecolor=COLORS[algo],    label="策略路徑 (Path)", alpha=0.6),
     ]
     ax.legend(handles=legend_items, loc="upper right", fontsize=9)
 
@@ -289,9 +293,9 @@ def plot_epsilon_sensitivity(
 
     ax.set_xticks(x)
     ax.set_xticklabels([f"ε = {e}" for e in epsilons], fontsize=10)
-    ax.set_ylabel("Final-100 Reward (mean ± std)", fontsize=10)
-    ax.set_title("Epsilon Sensitivity: Final Performance", fontsize=12)
-    ax.axhline(-13, color="gray", ls="--", lw=0.8, label="Optimal (−13)")
+    ax.set_ylabel("最後 100 回合平均獎勵 (mean ± std)", fontsize=10)
+    ax.set_title("Epsilon 敏感度分析：最終表現比較", fontsize=12)
+    ax.axhline(-13, color="gray", ls="--", lw=0.8, label="理論最佳 (-13)")
     ax.legend(fontsize=9)
     ax.grid(True, axis="y", alpha=0.3)
 
@@ -322,9 +326,9 @@ def plot_stability(
         rolling_std = moving_average(res["std_curve"].tolist(), window=window)
         ax.plot(x, rolling_std, color=color, lw=2, label=LABELS[algo])
 
-    ax.set_xlabel("Episode", fontsize=10)
-    ax.set_ylabel(f"Rolling Std of Reward (window={window})", fontsize=10)
-    ax.set_title("Reward Stability Over Training (lower = more stable)", fontsize=12)
+    ax.set_xlabel("回合 (Episode)", fontsize=10)
+    ax.set_ylabel(f"累積獎勵之滾動標準差 (window={window})", fontsize=10)
+    ax.set_title("學習過程穩定性分析 (越低代表越穩定)", fontsize=12)
     ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3)
     ax.set_xlim(0, list(results.values())[0]["n_episodes"])

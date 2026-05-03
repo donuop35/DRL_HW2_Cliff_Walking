@@ -1,4 +1,4 @@
-# HW2 Report: Comparing Q-Learning and SARSA on Cliff Walking
+# HW2 實驗報告：在 Cliff Walking 環境中比較 Q-Learning 與 SARSA
 
 **課程**：深度強化學習
 **作業**：HW2 — Tabular RL Comparison
