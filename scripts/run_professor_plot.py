@@ -78,9 +78,9 @@ def _sutton_reference_curves(n_episodes: int = 500):
     sarsa_kp_val = [-100, -80, -55, -35, -27, -25, -24, -26, -25, -27, -25, -26, -24, -25]
 
     # --- Q-learning reference keypoints ---
-    # Similar fast rise to ~-40, but stays more volatile around -40 to -50
+    # Similar fast rise to ~-40, but stays more volatile around -45 to -50
     ql_kp_ep  = [1,   5,   10,  20,  30,  40,  50,  75,  100, 150, 200, 300, 400, 500]
-    ql_kp_val = [-100, -82, -60, -45, -43, -42, -44, -46, -43, -45, -47, -44, -46, -45]
+    ql_kp_val = [-100, -82, -62, -49, -47, -46, -48, -49, -47, -49, -48, -48, -49, -48]
 
     # Interpolate to full length
     sarsa_base = np.interp(ep, sarsa_kp_ep, sarsa_kp_val)
