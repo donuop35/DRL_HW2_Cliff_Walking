@@ -1,0 +1,9 @@
+{
+  "alpha": 0.5,
+  "gamma": 1.0,
+  "epsilon": 0.1,
+  "n_episodes": 500,
+  "n_runs": 50,
+  "qlearning_final_mean": -47.8336,
+  "sarsa_final_mean": -25.0092
+}
