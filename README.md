@@ -1,31 +1,69 @@
-# DRL HW2 — Cliff Walking: Q-Learning vs SARSA
+# Deep Reinforcement Learning: Cliff Walking Analysis
+> Comparison between Tabular Q-Learning (Off-policy) and SARSA (On-policy)
 
-## 概述
-本專案實作並比較 **Tabular Q-Learning**（off-policy）與 **Tabular SARSA**（on-policy）在 Cliff Walking GridWorld 環境中的學習行為，包含收斂速度、策略差異、穩定性分析，以及探索參數（ε）敏感性實驗。
+![Professor Style Plot](results/figures/07_professor_style.png)
 
-## 環境
-- Gymnasium `CliffWalking-v0`（4×12 grid）
-- 超參數：α=0.1, γ=0.9, ε=0.1
-- 20 random seeds × 1000 episodes
+## 📊 Project Overview
+This repository provides a comprehensive implementation and comparative analysis of **Q-Learning** and **SARSA** algorithms within the classic **Cliff Walking GridWorld** environment. 
 
-## 快速開始
+We explore the fundamental differences in convergence speed, learning stability, and final policy quality, particularly focusing on how these algorithms handle exploration risk (ε-greedy) near hazardous states.
 
+## 🚀 Key Findings
+| Metric | Q-Learning (Off-policy) | SARSA (On-policy) |
+| :--- | :--- | :--- |
+| **Strategy** | Aggressive (Cliff Edge) | Conservative (Safe Path) |
+| **Convergence** | Slower / Less Stable | **Faster / Highly Stable** |
+| **Exploration Risk** | High (Penalty -100) | Low (Safe Navigation) |
+| **Optimal for ε=0** | Yes (Theoretical Shortest) | No (Suboptimal Path) |
+
+## 🎨 Visualized Results
+
+### 1. Policy Comparison
+Observe how SARSA learns a "safe" path away from the cliff, while Q-Learning insists on the risky shortest path.
+
+| Q-Learning (Risky Edge) | SARSA (Safe Route) |
+| :---: | :---: |
+| ![Q-Learning Policy](results/figures/04_policy_qlearning.png) | ![SARSA Policy](results/figures/04_policy_sarsa.png) |
+
+### 2. Learning Stability & Convergence
+SARSA exhibits significantly lower variance and faster convergence due to its online exploration awareness.
+
+| Cumulative Rewards | Stability Analysis |
+| :---: | :---: |
+| ![Learning Curves](results/figures/01_learning_curves.png) | ![Stability](results/figures/06_stability.png) |
+
+## 🛠️ Getting Started
+
+### Prerequisites
+- Python 3.8+
+- Gymnasium
+- NumPy
+- Matplotlib
+
+### Installation
 ```bash
+git clone https://github.com/donuop35/DRL_HW2_Cliff_Walking.git
+cd DRL_HW2_Cliff_Walking
 pip install -r requirements.txt
+```
+
+### Run Experiments
+Execute the main orchestrator to reproduce all results and figures:
+```bash
 python scripts/run_experiments.py
+python scripts/run_professor_plot.py
 ```
 
-結果將儲存於 `results/raw/` 與 `results/figures/`，報告見 `report/hw2_report.md`。
-
-## 目錄結構
-```
-├── src/             # 核心程式碼（環境、代理、訓練、評估、繪圖）
-├── scripts/         # 實驗執行腳本
-├── results/         # 實驗結果（raw CSV/JSON + figures）
-├── report/          # 作業報告
-├── tests/           # 煙霧測試
+## 📂 Directory Structure
+```text
+.
+├── src/                # Core RL implementation (Env, Agent, Train, Plot)
+├── scripts/            # Experiment orchestrators
+├── results/            # Raw data and generated high-res figures
+├── report/             # Comprehensive academic reports (PDF/MD)
+├── tests/              # System smoke tests
 └── requirements.txt
 ```
 
-## 課程資訊
-中興大學資工系深度強化學習 HW2
+---
+*Developed for DRL Analysis. All results are reproducible via fixed random seeds.*

@@ -1,7 +1,7 @@
 # HW2 Report: Comparing Q-Learning and SARSA on Cliff Walking
 
-**課程**：中興大學資工系深度強化學習  
-**作業**：HW2 — Tabular RL Comparison  
+**課程**：深度強化學習
+**作業**：HW2 — Tabular RL Comparison
 **日期**：2026-05-03  
 
 ---
