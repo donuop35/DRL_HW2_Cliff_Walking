@@ -42,7 +42,7 @@
   *圖說：Q-learning 與 SARSA 在 1000 回合中的平滑累積獎勵（20 seeds 平均）。*
 
 - **比較收斂速度**：
-  ![收斂速度](../results/figures/02_convergence_box.png)
+  ![收斂速度](../results/figures/02_convergence.png)
   實驗結果顯示，**SARSA 的收斂速度顯著快於 Q-Learning**。SARSA 約在 200 回合後即穩定上升並收斂在平均獎勵約 $-20$ 的水準；反觀 Q-Learning，在整個 1000 回合中都在 $-40$ 至 $-60$ 之間劇烈震盪，由於頻繁掉入懸崖，在給定的平滑閾值下遲遲未能達到穩定收斂。
 
 #### 2. 策略行為
